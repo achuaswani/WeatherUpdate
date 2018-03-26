@@ -16,7 +16,9 @@
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
-	<key>CFBundleVersion</key>
-	<string>1</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This is for getting current location from your mobile device</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This is for getting current location from your mobile device when you are in background</string>
 </dict>
 </plist>
