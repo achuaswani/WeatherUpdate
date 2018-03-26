@@ -13,7 +13,6 @@ typedef void(^finshedblck)(BOOL);
 typedef void(^responseblock)(NSDictionary*);
 
 -(void)getCurrentLocation: (finshedblck)completion;
-- (NSString*) getAddressFromLatLon:(CLLocation *)bestLocation;
 -(void)getCordinatesFromZip:(NSString*)zipOrCit completioncallback: (responseblock)completion;
 @end
 

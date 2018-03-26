@@ -14,6 +14,8 @@
 @synthesize scale;
 @synthesize adressFromLatLong;
 @synthesize URLString;
+@synthesize BASE_URL;
+@synthesize baseKey;
 
 + (id)sharedInstance
 {

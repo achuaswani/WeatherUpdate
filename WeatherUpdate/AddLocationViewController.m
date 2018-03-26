@@ -10,7 +10,7 @@
 #import "LocationManager.h"
 #import "WebServices.h"
 #import "ViewController.h"
-@interface AddLocationViewController () <UISearchControllerDelegate>
+@interface AddLocationViewController () <UISearchControllerDelegate, UISearchBarDelegate>
 
 @end
 

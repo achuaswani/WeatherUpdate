@@ -17,26 +17,7 @@ WebServices *webservice;
 
 
 
-- (NSString*) getAddressFromLatLon:(CLLocation *)bestLocation
-{
-    NSString *cityNm = @"";
-    NSLog(@"best loctn %f %f", bestLocation.coordinate.latitude, bestLocation.coordinate.longitude);
-    CLGeocoder *geocoder = [[CLGeocoder alloc] init] ;
-    [geocoder reverseGeocodeLocation:bestLocation
-                   completionHandler:^(NSArray *placemarks, NSError *error)
-     {
-         if (error){
-             NSLog(@"Geocode failed with error: %@", error);
-             return;
-         }
-         CLPlacemark *placemark = [placemarks objectAtIndex:0];
-         NSLog(@"placemark.ISOcountryCode %@",placemark.ISOcountryCode);
-         NSLog(@"locality %@",placemark.locality);
-         NSLog(@"postalCode %@",placemark.postalCode);
-         
-     }];
-    return cityNm;
-}
+
 -(void)getCurrentLocation: (finshedblck)completion{
     NSLog(@"getCurrent");
     WeatherData *weatherData = [WeatherData sharedInstance];
@@ -56,15 +37,26 @@ WebServices *webservice;
     
     NSString *str=[[NSString alloc] initWithFormat:@" latitude:%f,longitude:%f",coordinate.latitude,coordinate.longitude];
     NSLog(@"%@",str);
-    NSString *cityname = [self getAddressFromLatLon: location];
-    [weatherData setLocation: coordinate.latitude withLongi: coordinate.longitude withLocation: cityname];
-    NSLog(@"weatherData: %@ %@", weatherData.longitude, weatherData.latitude );
-    
-    [webservice webserviceCall:^(BOOL finished) {
-        if(finished){
-            completion(true);
-        }
-    }];
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init] ;
+    [geocoder reverseGeocodeLocation:location
+                   completionHandler:^(NSArray *placemarks, NSError *error)
+     {
+         NSString *cityname = @"";
+         if (error){
+             NSLog(@"Geocode failed with error: %@", error);
+         }
+         CLPlacemark *placemark = [placemarks objectAtIndex:0];
+         cityname = placemark.locality;
+         
+            [weatherData setLocation: coordinate.latitude withLongi: coordinate.longitude withLocation: cityname];
+            NSLog(@"weatherData: %@ %@", weatherData.longitude, weatherData.latitude );
+         
+            [webservice webserviceCall:^(BOOL finished) {
+                if(finished){
+                    completion(true);
+                }
+            }];
+         }];
 
 }
 
@@ -73,46 +65,33 @@ WebServices *webservice;
     NSLog(@"didFailWithError: %@", error);
    
 }
--(CLLocationCoordinate2D) getLocationFromAddressString: (NSString*) addressStr {
-    double latitude = 0, longitude = 0;
-    NSString *location =@"";
-    NSString *esc_addr =  [addressStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
-    NSString *req = [NSString stringWithFormat:@"https://maps.google.com/maps/api/geocode/json?key=AIzaSyAMOz1RvTye415PD-Y39J4jBIpOvelEc0Q&sensor=false&address=%@", esc_addr];
-    NSLog(@"req%@",req);
-    NSString *result = [NSString stringWithContentsOfURL:[NSURL URLWithString:req] encoding:NSUTF8StringEncoding error:NULL];
-    NSLog(@"strresult:, %@",result);
-    if (result) {
-        NSScanner *scanner = [NSScanner scannerWithString:result];
-        if ([scanner scanUpToString:@"\"lat\" :" intoString:nil] && [scanner scanString:@"\"lat\" :" intoString:nil]) {
-            [scanner scanDouble:&latitude];
-            if ([scanner scanUpToString:@"\"lng\" :" intoString:nil] && [scanner scanString:@"\"lng\" :" intoString:nil]) {
-                [scanner scanDouble:&longitude];
-            }
-            if ([scanner scanUpToString:@"\"long_name\" :" intoString:nil] && [scanner scanString:@"\"long_name\" :" intoString:nil]) {
-                [scanner scanUpToCharactersFromSet:@"long_name" intoString:&location];
 
-            }
-        }
-    }
-    CLLocationCoordinate2D center;
-    center.latitude=latitude;
-    center.longitude = longitude;
-    NSLog(@"location: %@",location);
-    NSLog(@"View Controller get Location Logitute : %f",center.latitude);
-    NSLog(@"View Controller get Location Latitute : %f",center.longitude);
-    return center;
-    
-}
 
 -(void)getCordinatesFromZip:(NSString*)zipOrCity completioncallback: (responseblock)completion{
     
-    CLLocationCoordinate2D center= [self getLocationFromAddressString:zipOrCity];
+    //NSDictionary *center= [self getLocationFromAddressString:zipOrCity];
     WeatherData *weatherData = [WeatherData sharedInstance];
-    
-
-    [weatherData setLocation:center.latitude withLongi:center.longitude withLocation:zipOrCity];
-    //[weatherData setAdressFromLatLong:zipOrCity];
-    NSDictionary *dict = @{@"latitude":[NSString stringWithFormat:@"%.2f",center.latitude] ,@"longitude":[NSString stringWithFormat:@"%.2f",center.longitude]};
-    completion(dict);
+    CLGeocoder* gc = [[CLGeocoder alloc] init];
+    [gc geocodeAddressString:zipOrCity completionHandler:^(NSArray *placemarks, NSError *error)
+     {
+         if ([placemarks count]>0)
+         {
+             // get the first one
+             CLPlacemark* mark = (CLPlacemark*)[placemarks objectAtIndex:0];
+             float lat = mark.location.coordinate.latitude;
+             float lng = mark.location.coordinate.longitude;
+             NSString *address = [NSString stringWithFormat:@"%@, %@, %@, %@, %@, %@",
+                                  mark.thoroughfare,
+                                  mark.locality,
+                                  mark.subLocality,
+                                  mark.administrativeArea,
+                                  mark.postalCode,
+                                  mark.country];
+             NSLog(@"AddressTyyoo---%@",  address);
+            [weatherData setLocation:lat withLongi:lng withLocation:[NSString stringWithFormat:@"%@",mark.locality]];
+            NSDictionary *dict = @{@"latitude":[NSString stringWithFormat:@"%.2f",lat] ,@"longitude":[NSString stringWithFormat:@"%.2f",lng]};
+            completion(dict);
+         }
+     }];
 }
 @end

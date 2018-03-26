@@ -54,6 +54,8 @@ WebServices *ws;
     
     UIImage *weatherImage = [self getWeatherIcon:[weatherDat currentWeatherIcon] withflg:true];
     [self.weatherIcon setImage:weatherImage];
+    self.lblCityName.text =  [weatherDat adressFromLatLong];
+
     tableData = [[[weatherDat currentTableData] objectForKey:@"response"] mutableCopy];
     [self.tblView reloadData];
     
@@ -120,7 +122,7 @@ WebServices *ws;
     }];
     
     NSLog(@"call %@",weatherDat.scale);
-    [self.lblCurrentDay setText: [weatherDat adressFromLatLong]];
+    self.lblCityName.text =  [weatherDat adressFromLatLong];
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -159,8 +161,11 @@ WebServices *ws;
     NSLog(@"condition: %@", weatherIconstr);
     UIImage *weatherImage = [self getWeatherIcon:weatherIconstr withflg:false];
     cell.cellWeatherIcon.image = weatherImage;
-    cell.lblhigh.text = [NSString stringWithFormat:@"%@",tblItem[@"temperatureHigh"]];
-    cell.lbllow.text = [NSString stringWithFormat:@"%@",tblItem[@"temperatureLow"]];
+    int temperatureHigh = (int)[tblItem[@"temperatureHigh"] integerValue];
+    int temperatureLow = (int)[tblItem[@"temperatureLow"] integerValue];
+
+    cell.lblhigh.text = [NSString stringWithFormat:@"%i",temperatureHigh];
+    cell.lbllow.text = [NSString stringWithFormat:@"%i",temperatureLow];
     
     return cell;
     return cell;
