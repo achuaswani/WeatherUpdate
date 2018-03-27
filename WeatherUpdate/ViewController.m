@@ -46,48 +46,43 @@ WebServices *ws;
 
 -(void)updateUI{
     WeatherData *weatherDat = [WeatherData sharedInstance];
+    tableData = [[[weatherDat currentTableData] objectForKey:@"response"] mutableCopy];
+    [self.tblView reloadData];
     [self.lblTemperatureNow setText:[weatherDat currentTemprature]];
     [self.lblTempType setText:[weatherDat currentPrecipType]];
     [self.lblCurrentDay setText: [weatherDat currentTime]];
     [self.lblHighTemp setText:[weatherDat currentHumidity]];
     [self.lblLowTemp setText:[weatherDat currentPressure]];
-    
+    NSLog(@"[weatherDat currentWeatherIcon], %@",[weatherDat currentWeatherIcon]);
     UIImage *weatherImage = [self getWeatherIcon:[weatherDat currentWeatherIcon] withflg:true];
     [self.weatherIcon setImage:weatherImage];
     self.lblCityName.text =  [weatherDat adressFromLatLong];
-
-    tableData = [[[weatherDat currentTableData] objectForKey:@"response"] mutableCopy];
-    [self.tblView reloadData];
-    
-
-
 }
 
 -(UIImage *)getWeatherIcon: (NSString*)weatherIcontxt withflg: (BOOL)flg {
     UIImage *weatherImage = [UIImage imageNamed:@"clear-day.png"];
     NSLog(@"weatherIconstr %@",weatherIcontxt);
     if( [weatherIcontxt isEqualToString: @"cloudy"]){
-        weatherImage = [UIImage imageNamed:@"cloudy.png"];
-//        if(flg){
-//            [self.imgView setImage:[UIImage imageNamed:@"bg.png"]];
-//        }
+        weatherImage = [UIImage imageNamed:@"rainbg.png"];
+        if(flg){
+            [self.imgView setImage:[UIImage imageNamed:@"bg.png"]];
+        }
     }else if([weatherIcontxt isEqualToString: @"clear-day"]){
         weatherImage = [UIImage imageNamed:@"clear-day.png"];
-//        if(flg==false){
-//            [self.imgView setImage:[UIImage imageNamed:@"bg.png"]];
-//        }
+        if(flg){
+            [self.imgView setImage:[UIImage imageNamed:@"bg.png"]];
+        }
     }else if([weatherIcontxt isEqualToString:@"clear-night"]){
         weatherImage = [UIImage imageNamed:@"clear-night.png"];
-//        if(flg){
-//            [self.imgView setImage:[UIImage imageNamed:@"nightbg.png"]];
-//        }
+        if(flg){
+            [self.imgView setImage:[UIImage imageNamed:@"rainbg.png"]];
+        }
     }else if([weatherIcontxt isEqualToString:@"rain"]){
         weatherImage = [UIImage imageNamed:@"rain.png"];
-        NSLog(@"rain %i",flg);
 
-//        if(flg==false){
-//            [self.imgView setImage:[UIImage imageNamed:@"rainybg.png"]];
-//        }
+        if(flg){
+            [self.imgView setImage:[UIImage imageNamed:@"rainbg.png"]];
+        }
     }else if([weatherIcontxt isEqualToString:@"snow"]){
         weatherImage = [UIImage imageNamed:@"snow.png"];
     }else if([weatherIcontxt isEqualToString:@"sleet"]){
@@ -95,11 +90,23 @@ WebServices *ws;
     }else if([weatherIcontxt isEqualToString:@"wind"]){
         weatherImage = [UIImage imageNamed:@"wind.png"];
     }else if([weatherIcontxt isEqualToString:@"fog"]){
+        
         weatherImage = [UIImage imageNamed:@"fog.png"];
+        if(flg){
+            [self.imgView setImage:[UIImage imageNamed:@"rainbg.png"]];
+        }
     }else if([weatherIcontxt isEqualToString:@"partly-cloudy-day"]){
         weatherImage = [UIImage imageNamed:@"partly-cloudy-day.png"];
+        if(flg){
+            [self.imgView setImage:[UIImage imageNamed:@"bg.png"]];
+        }
     }else if([weatherIcontxt isEqualToString:@"partly-cloudy-night"]){
         weatherImage = [UIImage imageNamed:@"partly-cloudy-night.png"];
+        NSLog(@"rain--- %i",flg);
+
+        if(flg){
+            [self.imgView setImage:[UIImage imageNamed:@"rainbg.png"]];
+        }
     }
     return weatherImage;
 }

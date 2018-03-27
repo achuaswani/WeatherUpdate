@@ -28,6 +28,7 @@
 		2F5FFBCB20685BC300424E74 /* WebServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5FFBCA20685BC300424E74 /* WebServices.m */; };
 		2F5FFBCF206860AB00424E74 /* WeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5FFBCE206860AB00424E74 /* WeatherData.m */; };
 		2F9840C7206954D1003521DD /* cloudy.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F9840C6206954D0003521DD /* cloudy.png */; };
+		2F9840CB2069BD91003521DD /* rainbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F9840CA2069BD91003521DD /* rainbg.png */; };
 		2FAE42AB20670919009C94AA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FAE42AA20670919009C94AA /* AppDelegate.m */; };
 		2FAE42AE20670919009C94AA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FAE42AD20670919009C94AA /* ViewController.m */; };
 		2FAE42B120670919009C94AA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2FAE42AF20670919009C94AA /* Main.storyboard */; };
@@ -83,6 +84,7 @@
 		2F5FFBCD206860AB00424E74 /* WeatherData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherData.h; sourceTree = "<group>"; };
 		2F5FFBCE206860AB00424E74 /* WeatherData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeatherData.m; sourceTree = "<group>"; };
 		2F9840C6206954D0003521DD /* cloudy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cloudy.png; sourceTree = "<group>"; };
+		2F9840CA2069BD91003521DD /* rainbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rainbg.png; sourceTree = "<group>"; };
 		2FAE42A620670919009C94AA /* WeatherUpdate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherUpdate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FAE42A920670919009C94AA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2FAE42AA20670919009C94AA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				2F5FFB992067F47B00424E74 /* rain.png */,
 				2F9840C6206954D0003521DD /* cloudy.png */,
 				2F5FFB9F2067F55B00424E74 /* wind.png */,
+				2F9840CA2069BD91003521DD /* rainbg.png */,
 				2F5FFBAF2067FAA900424E74 /* clear-night.png */,
 				2F5FFBAB2067FA3F00424E74 /* add.png */,
 				2F5FFBA52067F68900424E74 /* partly-cloudy-day.png */,
@@ -354,6 +357,7 @@
 				2FAE42B920670919009C94AA /* LaunchScreen.storyboard in Resources */,
 				2F5FFBA42067F5CE00424E74 /* sleet.png in Resources */,
 				2F5FFBC22068561100424E74 /* gps.png in Resources */,
+				2F9840CB2069BD91003521DD /* rainbg.png in Resources */,
 				2FAE42B620670919009C94AA /* Assets.xcassets in Resources */,
 				2F5FFB9120670DBF00424E74 /* bg@1x.png in Resources */,
 				2F5FFBA02067F55B00424E74 /* wind.png in Resources */,

@@ -16,7 +16,12 @@
 @synthesize URLString;
 @synthesize BASE_URL;
 @synthesize baseKey;
-
+@synthesize currentTemprature;
+@synthesize currentPrecipType;
+@synthesize currentTime;
+@synthesize currentHumidity;
+@synthesize currentWeatherIcon;
+@synthesize currentPressure;
 + (id)sharedInstance
 {
     static WeatherData *sharedweatherData = nil;

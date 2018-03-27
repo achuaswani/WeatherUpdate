@@ -17,6 +17,12 @@
     NSString *URLString;
     NSString *baseKey;
     NSString *BASE_URL;
+    NSString *currentTemprature;
+    NSString *currentPrecipType;
+    NSString *currentTime;
+    NSString *currentHumidity;
+    NSString *currentWeatherIcon;
+    NSString *currentPressure;
 }
 @property (nonatomic, strong) NSString* scale;
 @property (nonatomic, strong) NSString *latitude;
