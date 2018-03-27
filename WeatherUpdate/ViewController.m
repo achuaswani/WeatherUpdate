@@ -18,13 +18,15 @@
 
 @implementation ViewController
 NSArray *tableData;
-
-
 LocationManager *locationService;
 WebServices *ws;
+
+//Change the scale "si" is celsius and "us" is farenheit
 -(IBAction) changeScale:(id) sender{
+    // get current scale data from model
     WeatherData *weatherDat = [WeatherData sharedInstance];
     NSLog(@"self.weatherDat%@",[weatherDat scale]);
+    // This button behaves like switch
     if([[weatherDat scale] isEqualToString:@"us"]){
         [weatherDat setScale:@"si"];
         self.lblCurrentTempScale.text = @"Celsius";
@@ -32,10 +34,12 @@ WebServices *ws;
         [weatherDat setScale:@"us"];
         self.lblCurrentTempScale.text = @"Farenheit";
     }
+    //Call webservice after getting the required scale
     ws = [[WebServices alloc]init];
     [weatherDat updateURL];
     [ws webserviceCall:^(BOOL finished) {
         if(finished){
+            // update view with updated values
             [self updateUI];
         }
     }];
@@ -43,22 +47,24 @@ WebServices *ws;
 }
 
 
-
+//Uodate Entire UI with latest values on demand
 -(void)updateUI{
     WeatherData *weatherDat = [WeatherData sharedInstance];
     tableData = [[[weatherDat currentTableData] objectForKey:@"response"] mutableCopy];
     [self.tblView reloadData];
+    [self.lblSummary setText:[weatherDat currentSummary]];
     [self.lblTemperatureNow setText:[weatherDat currentTemprature]];
     [self.lblTempType setText:[weatherDat currentPrecipType]];
     [self.lblCurrentDay setText: [weatherDat currentTime]];
-    [self.lblHighTemp setText:[weatherDat currentHumidity]];
-    [self.lblLowTemp setText:[weatherDat currentPressure]];
+    [self.lblHighTemp setText:[NSString stringWithFormat:@"Humidity: %@",[weatherDat currentHumidity]]];
+    [self.lblLowTemp setText:[NSString stringWithFormat:@"Feels Like: %@",[weatherDat currentFeelsLike]]];
     NSLog(@"[weatherDat currentWeatherIcon], %@",[weatherDat currentWeatherIcon]);
     UIImage *weatherImage = [self getWeatherIcon:[weatherDat currentWeatherIcon] withflg:true];
     [self.weatherIcon setImage:weatherImage];
     self.lblCityName.text =  [weatherDat adressFromLatLong];
 }
 
+//This function determines which icon needs to show for weather forecast
 -(UIImage *)getWeatherIcon: (NSString*)weatherIcontxt withflg: (BOOL)flg {
     UIImage *weatherImage = [UIImage imageNamed:@"clear-day.png"];
     NSLog(@"weatherIconstr %@",weatherIcontxt);
@@ -112,16 +118,17 @@ WebServices *ws;
 }
 
 
-
+// On load
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSLog(@"load");
     WeatherData *weatherDat= [WeatherData sharedInstance];
+    //Default scale as "us"
     [weatherDat setScale:@"us"];
     self.lblCurrentTempScale.text = @"Farenheit";
 
     locationService = [[LocationManager alloc]init];
-
+    //update ui with current location weather
     [locationService getCurrentLocation:^(BOOL finished) {
         if(finished){
             [self updateUI];
@@ -133,6 +140,7 @@ WebServices *ws;
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    //Update UI on dismiss after getting search location
     [self updateUI];
 
 }
@@ -145,13 +153,14 @@ WebServices *ws;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    //table view row count
     return [tableData count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    //Configure table view cell
     static NSString *simpleTableIdentifier = @"DailyWeatherCel";
     
     DailyWeatherCel *cell = (DailyWeatherCel *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
@@ -160,6 +169,7 @@ WebServices *ws;
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"DailyWeatherCel" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
+    //Update cell with weather data for 8 days
     WeatherData *weatherDat = [WeatherData sharedInstance];
     NSDictionary *tblItem = [tableData objectAtIndex:indexPath.row];
     NSString *date = [weatherDat getCurrentDateFromUTC:tblItem[@"time"] withdatereq:true];
@@ -173,8 +183,6 @@ WebServices *ws;
 
     cell.lblhigh.text = [NSString stringWithFormat:@"%i",temperatureHigh];
     cell.lbllow.text = [NSString stringWithFormat:@"%i",temperatureLow];
-    
-    return cell;
     return cell;
 }
 

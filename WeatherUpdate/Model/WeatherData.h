@@ -22,7 +22,9 @@
     NSString *currentTime;
     NSString *currentHumidity;
     NSString *currentWeatherIcon;
-    NSString *currentPressure;
+    NSString *currentFeelsLike;
+    NSString *currentSummary;
+
 }
 @property (nonatomic, strong) NSString* scale;
 @property (nonatomic, strong) NSString *latitude;
@@ -35,8 +37,10 @@
 @property(nonatomic, strong) NSString *currentPrecipType;
 @property(nonatomic, strong) NSString *currentTime;
 @property(nonatomic, strong) NSString *currentHumidity;
-@property(nonatomic, strong) NSString *currentPressure;
+@property(nonatomic, strong) NSString *currentFeelsLike;
 @property(nonatomic, strong) NSString *currentWeatherIcon;
+@property(nonatomic, strong) NSString *currentSummary;
+
 @property(nonatomic, assign) NSUserDefaults *currentTableData;
 -(void)updateVariable: (NSDictionary*)jsonResponse;
 -(void)setLocation:(float)latitude withLongi:(float)longi withLocation:(NSString*)location;

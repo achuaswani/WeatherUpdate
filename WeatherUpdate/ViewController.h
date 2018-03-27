@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblLowTemp;
 @property (weak, nonatomic) IBOutlet UILabel *lblCurrentTempScale;
 @property (weak, nonatomic) IBOutlet UILabel *lblTemperatureNow;
+@property (weak, nonatomic) IBOutlet UILabel *lblSummary;
+
 @property (weak, nonatomic) IBOutlet UIView *mainView;
 @property (weak, nonatomic) IBOutlet UIImageView *imgView;
 @property (weak, nonatomic) IBOutlet UIImageView *weatherIcon;

@@ -21,7 +21,8 @@
 @synthesize currentTime;
 @synthesize currentHumidity;
 @synthesize currentWeatherIcon;
-@synthesize currentPressure;
+@synthesize currentFeelsLike;
+@synthesize currentSummary;
 + (id)sharedInstance
 {
     static WeatherData *sharedweatherData = nil;
@@ -73,8 +74,10 @@
     if([currentDay[@"humidity"] description]!=nil){
         self.currentHumidity = [currentDay[@"humidity"] description];
     }
-    if([currentDay[@"pressure"] description]!=nil){
-        self.currentPressure = [currentDay[@"pressure"] description];
+    if([currentDay[@"apparentTemperature"] description]!=nil){
+        int tempraturefeelsInt = (int)[currentDay[@"apparentTemperature"] integerValue];
+
+        self.currentFeelsLike = [NSString stringWithFormat:@"%i",tempraturefeelsInt];
     }
     if([currentDay[@"icon"]description] !=nil){
         self.currentWeatherIcon = [NSString stringWithFormat:@"%@",currentDay[@"icon"]];
@@ -85,6 +88,7 @@
     self.currentTableData = [NSUserDefaults standardUserDefaults];
     NSDictionary *jsonval = [jsonResponse objectForKey:@"daily"];
     NSArray *resultData = [jsonval objectForKey:@"data"];
+    self.currentSummary = [jsonval objectForKey:@"summary"];
     [self.currentTableData setObject:resultData  forKey:@"response"];
 }
 -(void)updateURL{
