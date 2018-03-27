@@ -47,11 +47,9 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     NSString *searchString = self.searchController.text;
-    NSLog(@"search--%@",searchString);
     if (searchString != nil && ![searchString  isEqual: @""]) {
         LocationManager *locationservice = [[LocationManager alloc]init];
         [locationservice getCordinatesFromZip:searchString completioncallback:^(NSDictionary* finished) {
-            NSLog(@"Return");
             WebServices *websrv = [[WebServices alloc]init];
             [websrv webserviceCall:^(BOOL response) {
                 if(response){

@@ -25,7 +25,6 @@ WebServices *ws;
 -(IBAction) changeScale:(id) sender{
     // get current scale data from model
     WeatherData *weatherDat = [WeatherData sharedInstance];
-    NSLog(@"self.weatherDat%@",[weatherDat scale]);
     // This button behaves like switch
     if([[weatherDat scale] isEqualToString:@"us"]){
         [weatherDat setScale:@"si"];
@@ -60,7 +59,12 @@ WebServices *ws;
     [self.lblLowTemp setText:[NSString stringWithFormat:@"Feels Like: %@",[weatherDat currentFeelsLike]]];
     NSLog(@"[weatherDat currentWeatherIcon], %@",[weatherDat currentWeatherIcon]);
     UIImage *weatherImage = [self getWeatherIcon:[weatherDat currentWeatherIcon] withflg:true];
-    [self.weatherIcon setImage:weatherImage];
+    [self.weatherIcon setImage:[UIImage imageNamed:@"clear-day.png"]];
+
+    if(weatherImage!=nil){
+        [self.weatherIcon setImage:weatherImage];
+
+    }
     self.lblCityName.text =  [weatherDat adressFromLatLong];
 }
 
@@ -69,7 +73,7 @@ WebServices *ws;
     UIImage *weatherImage = [UIImage imageNamed:@"clear-day.png"];
     NSLog(@"weatherIconstr %@",weatherIcontxt);
     if( [weatherIcontxt isEqualToString: @"cloudy"]){
-        weatherImage = [UIImage imageNamed:@"rainbg.png"];
+        weatherImage = [UIImage imageNamed:@"cloudy.png"];
     }else if([weatherIcontxt isEqualToString: @"clear-day"]){
         weatherImage = [UIImage imageNamed:@"clear-day.png"];
     }else if([weatherIcontxt isEqualToString:@"clear-night"]){
@@ -110,7 +114,6 @@ WebServices *ws;
         }
     }];
     
-    NSLog(@"call %@",weatherDat.scale);
     self.lblCityName.text =  [weatherDat adressFromLatLong];
 }
 - (void)viewDidAppear:(BOOL)animated {
@@ -152,7 +155,10 @@ WebServices *ws;
     NSString *weatherIconstr = tblItem[@"icon"];
     NSLog(@"condition: %@", weatherIconstr);
     UIImage *weatherImage = [self getWeatherIcon:weatherIconstr withflg:false];
+    cell.cellWeatherIcon.image = [UIImage imageNamed:@"clear-day.png"];
+    if(weatherImage!=nil){
     cell.cellWeatherIcon.image = weatherImage;
+    }
     int temperatureHigh = (int)[tblItem[@"temperatureHigh"] integerValue];
     int temperatureLow = (int)[tblItem[@"temperatureLow"] integerValue];
 

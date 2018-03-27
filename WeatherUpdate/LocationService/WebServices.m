@@ -10,9 +10,10 @@
 #import "WeatherData.h"
 @implementation WebServices
 WeatherData *wd;
+
+//API call 
 -(void) webserviceCall: (cmpltionblck)completion {
     wd = [WeatherData sharedInstance];
-    //[wd updateURL];
     NSURLSession *session = [NSURLSession sharedSession];
     NSString* urlString = [wd URLString];
     NSLog(@"[wd URLString] %@",urlString);
@@ -20,7 +21,6 @@ WeatherData *wd;
     NSURLSessionDataTask *dataTask = [session dataTaskWithURL:[NSURL URLWithString:urlString] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"updateVariable %@", json);
 
             [wd updateVariable: json];
             completion(true);
