@@ -20,7 +20,6 @@
     [super viewDidLoad];
     
     self.searchController.delegate = self;
-    // Do any additional setup after loading the view from its nib.
 }
 - (void)willPresentSearchController:(UISearchController *)searchController
 {

@@ -70,25 +70,12 @@ WebServices *ws;
     NSLog(@"weatherIconstr %@",weatherIcontxt);
     if( [weatherIcontxt isEqualToString: @"cloudy"]){
         weatherImage = [UIImage imageNamed:@"rainbg.png"];
-        if(flg){
-            [self.imgView setImage:[UIImage imageNamed:@"bg.png"]];
-        }
     }else if([weatherIcontxt isEqualToString: @"clear-day"]){
         weatherImage = [UIImage imageNamed:@"clear-day.png"];
-        if(flg){
-            [self.imgView setImage:[UIImage imageNamed:@"bg.png"]];
-        }
     }else if([weatherIcontxt isEqualToString:@"clear-night"]){
         weatherImage = [UIImage imageNamed:@"clear-night.png"];
-        if(flg){
-            [self.imgView setImage:[UIImage imageNamed:@"rainbg.png"]];
-        }
     }else if([weatherIcontxt isEqualToString:@"rain"]){
         weatherImage = [UIImage imageNamed:@"rain.png"];
-
-        if(flg){
-            [self.imgView setImage:[UIImage imageNamed:@"rainbg.png"]];
-        }
     }else if([weatherIcontxt isEqualToString:@"snow"]){
         weatherImage = [UIImage imageNamed:@"snow.png"];
     }else if([weatherIcontxt isEqualToString:@"sleet"]){
@@ -96,23 +83,11 @@ WebServices *ws;
     }else if([weatherIcontxt isEqualToString:@"wind"]){
         weatherImage = [UIImage imageNamed:@"wind.png"];
     }else if([weatherIcontxt isEqualToString:@"fog"]){
-        
         weatherImage = [UIImage imageNamed:@"fog.png"];
-        if(flg){
-            [self.imgView setImage:[UIImage imageNamed:@"rainbg.png"]];
-        }
     }else if([weatherIcontxt isEqualToString:@"partly-cloudy-day"]){
         weatherImage = [UIImage imageNamed:@"partly-cloudy-day.png"];
-        if(flg){
-            [self.imgView setImage:[UIImage imageNamed:@"bg.png"]];
-        }
     }else if([weatherIcontxt isEqualToString:@"partly-cloudy-night"]){
         weatherImage = [UIImage imageNamed:@"partly-cloudy-night.png"];
-        NSLog(@"rain--- %i",flg);
-
-        if(flg){
-            [self.imgView setImage:[UIImage imageNamed:@"rainbg.png"]];
-        }
     }
     return weatherImage;
 }
